@@ -4,6 +4,7 @@ using EFSamurai.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFSamurai.Data.Migrations
 {
     [DbContext(typeof(SamuraiDbContext))]
-    partial class SamuraiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220808121940_ConsoleAppAsStartup")]
+    partial class ConsoleAppAsStartup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,7 +212,7 @@ namespace EFSamurai.Data.Migrations
             modelBuilder.Entity("EFSamurai.Domain.Quote", b =>
                 {
                     b.HasOne("EFSamurai.Domain.Samurai", "samurai")
-                        .WithMany("Quote")
+                        .WithMany()
                         .HasForeignKey("SamuraiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -263,8 +265,6 @@ namespace EFSamurai.Data.Migrations
 
             modelBuilder.Entity("EFSamurai.Domain.Samurai", b =>
                 {
-                    b.Navigation("Quote");
-
                     b.Navigation("SamuraiBattle");
                 });
 #pragma warning restore 612, 618

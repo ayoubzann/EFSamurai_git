@@ -11,6 +11,8 @@ namespace EFSamurai.Domain
 
         public Hairstyle? Hairstyle { get; set; }
         public ICollection<SamuraiBattle>? SamuraiBattle { get; set; }
+
+        public ICollection<Quote>? Quote { get; set; }
     }
 
 }
