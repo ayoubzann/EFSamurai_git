@@ -4,6 +4,7 @@ using EFSamurai.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFSamurai.Data.Migrations
 {
     [DbContext(typeof(SamuraiDbContext))]
-    partial class SamuraiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220808115048_AddedDbSet")]
+    partial class AddedDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,58 +52,6 @@ namespace EFSamurai.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Battle");
-                });
-
-            modelBuilder.Entity("EFSamurai.Domain.BattleEvent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BattleLogId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BattleLogId");
-
-                    b.ToTable("BattleEvents");
-                });
-
-            modelBuilder.Entity("EFSamurai.Domain.BattleLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BattleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BattleId")
-                        .IsUnique();
-
-                    b.ToTable("BattleLogs");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.Quote", b =>
@@ -185,28 +135,6 @@ namespace EFSamurai.Data.Migrations
                     b.ToTable("SecretIdentities");
                 });
 
-            modelBuilder.Entity("EFSamurai.Domain.BattleEvent", b =>
-                {
-                    b.HasOne("EFSamurai.Domain.BattleLog", "BattleLog")
-                        .WithMany("BattleEvents")
-                        .HasForeignKey("BattleLogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BattleLog");
-                });
-
-            modelBuilder.Entity("EFSamurai.Domain.BattleLog", b =>
-                {
-                    b.HasOne("EFSamurai.Domain.Battle", "Battle")
-                        .WithOne("BattleLog")
-                        .HasForeignKey("EFSamurai.Domain.BattleLog", "BattleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Battle");
-                });
-
             modelBuilder.Entity("EFSamurai.Domain.Quote", b =>
                 {
                     b.HasOne("EFSamurai.Domain.Samurai", "samurai")
@@ -250,15 +178,7 @@ namespace EFSamurai.Data.Migrations
 
             modelBuilder.Entity("EFSamurai.Domain.Battle", b =>
                 {
-                    b.Navigation("BattleLog")
-                        .IsRequired();
-
                     b.Navigation("SamuraiBattle");
-                });
-
-            modelBuilder.Entity("EFSamurai.Domain.BattleLog", b =>
-                {
-                    b.Navigation("BattleEvents");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.Samurai", b =>

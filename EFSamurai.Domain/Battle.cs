@@ -19,6 +19,7 @@ SQL Server), StartDate (DateTime type), EndDate.
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public ICollection<SamuraiBattle>? SamuraiBattle { get; set; }
+        public BattleLog BattleLog { get; set; }
 
     }
 
