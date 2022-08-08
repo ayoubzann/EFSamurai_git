@@ -12,10 +12,19 @@ namespace EFSamurai.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+        //    modelBuilder.Entity<Actor>()
+        //.HasKey(nameof(Actor.FirstName), nameof(Actor.LastName));
+
             optionsBuilder.UseSqlServer(
                 @"Server = (localdb)\MSSQLLocalDB; " +
                 "Database = EFSamurai; " +
                 "Trusted_Connection = True;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SamuraiBattle>()
+                .HasKey(c => new { c.SamuraiId, c.BattleId });
         }
         // add-migration -StartupProject EFSamurai.data -Project EFSamurai.data MigrationName
         // update-database -StartupProject EFSamurai.data -Project EfSamurai.data

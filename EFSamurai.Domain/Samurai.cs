@@ -7,10 +7,10 @@ namespace EFSamurai.Domain
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } = "";
 
         public Hairstyle? Hairstyle { get; set; }
-
+        public ICollection<SamuraiBattle>? SamuraiBattle { get; set; }
     }
 
 }

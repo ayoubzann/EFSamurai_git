@@ -12,7 +12,7 @@ namespace EFSamurai.Domain
         public int Id { get; set; }
         public int SamuraiId { get; set; } // Fremmednøkkel fra Samurai
         public Samurai samurai { get; set; } = null!; // Instansierer Samurai for å ha fremmednøkkel
-        public string Realname { get; set; } = null!;
+        public string Realname { get; set; } = "";
 
     }
 }
