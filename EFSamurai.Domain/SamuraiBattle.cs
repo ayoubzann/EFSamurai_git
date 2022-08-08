@@ -24,12 +24,5 @@ SamuraiDbContext klassen. Se bakerst i dagens forelesningsslides på Canvas. Kla
         public int BattleId { get; set; }
         public Battle battle { get; set; }
 
-        public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public bool IsBrutal { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-
-
     }
 }
