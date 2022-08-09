@@ -19,13 +19,17 @@ SamuraiDbContext klassen. Se bakerst i dagens forelesningsslides på Canvas. Kla
     public class SamuraiBattle
     {
         public int SamuraiId { get; set; }
-        public Samurai samurai { get; set; }
+        public Samurai Samurai { get; set; }
         
         public int BattleId { get; set; }
-        public Battle battle { get; set; }
+        public Battle Battle { get; set; }
 
-        
 
+        public SamuraiBattle(Samurai samurai, Battle battle)
+        {
+            Samurai = samurai;
+            Battle = battle;
+        }
 
     }
 }

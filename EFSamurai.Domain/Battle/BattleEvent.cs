@@ -20,5 +20,11 @@ M forhold mellom BattleLog og BattleEvent.
         public string Description { get; set; }
         public int BattleLogId { get; set; }
         public BattleLog BattleLog { get; set; }
+
+
+        public BattleEvent()
+        {
+
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EFSamurai.Domain;
 using EFSamurai.Data;
+using Microsoft.Data.SqlClient;
 
 namespace SamuraiApp
 {
@@ -22,67 +23,150 @@ namespace SamuraiApp
             db.SaveChanges();
         }
         /*
-         Skriv metoden AddOneSamuraiWithRelatedData, som legger til en samurai og alt av 
-tilhørende data, altså legger noe i alle tabeller i databasen. Tips: Det er helt greit å gjøre 
-dette som flere Add / AddRange metodekall i AddOneSamuraiWithRelatedData etter 
-hverandre, det trenger ikke være en kjempe-insert som gjør alt på en gang. 
+         Skriv metoden ClearDatabase, som sletter alle rader i hele tabellen. Tips for å slette: Enten 
+benytte cascading delete (Cascading delete er default for FKs i EF Core) eller slette tabellene 
+som inneholder fremmednøkler før de øvrige tabellene. Senere (når du kommer til unit test 
+oppgavene) kall også denne metoden først i ditt testprogram, så har du en mer konsistent 
+database å teste på! 
          */
+
+        //int primaryKeyId, string whereColumn, string table - Input queries
+       
+
+        private static void AddOneSamuraiWithRelatedData()
+        {       
+
+        using SamuraiDbContext db = new();
+
+            Samurai samurai = new();
+
+            samurai.Name = "Jack";
+            samurai.Hairstyle = Hairstyle.Western;
+
+            List<Quote> quotes = new List<Quote>();
+
+            Quote firstQuote = new();
+            firstQuote.Text = "A samurai should always be prepared for death – whether his own or someone else's.";
+            firstQuote.QuoteStyle = QuoteStyle.Awesome;
+            firstQuote.samurai = samurai;
+            quotes.Add(firstQuote);
+
+            Quote secondQuote = new();
+            secondQuote.Text = "You must understand that there is more than one path to the top of the mountain.";
+            secondQuote.QuoteStyle = QuoteStyle.Awesome;
+            secondQuote.samurai = samurai;
+            quotes.Add(secondQuote);
+
+            SecretIdentity secretIdentity = new ( samurai, "Erlend Elias");
+            Battle battle = new Battle();
+            SamuraiBattle samuraiBattle = new(samurai, battle);
+
+       
+        db.Samurais.Add(samurai);
+        db.Quotes.AddRange(firstQuote, secondQuote);
+        db.SecretIdentities.Add(secretIdentity);
+        db.SamuraiBattles.Add(samuraiBattle);
+        db.SaveChanges();
+
+        }
+
         private static void AddSomeBattles(List<Battle>Battles)
         {
-            foreach (var battlefight in Battles)
+            List<Battle> battles = new List<Battle>();
+            foreach (var battle in Battles)
             {
-                //TODO : Validate user input
-                Console.WriteLine("What is the name of the battle? Please type in the name and press [ENTER]:");
-                    battlefight.Name = Console.ReadLine();
                 
-                Console.WriteLine("Please provide a brief description of the battle:");
-                    battlefight.Description = Console.ReadLine();
 
-                Console.WriteLine("Was the battle brutal? Respond with Y/N:");
-                if (Console.ReadLine() == "Y")
-                {
-                    battlefight.IsBrutal = true;
-                }
-                else if (Console.ReadLine() == "N")
-                {
-                    battlefight.IsBrutal = false;
-                }
-
-                Console.WriteLine("What is the startdate of the battle? Format: MM/DD/YYYY");
-                battlefight.StartDate = DateTime.Parse(Console.ReadLine());
-
-                Console.WriteLine("What is the enddate of the battle? Format: MM/DD/YYYY");
-                battlefight.EndDate = DateTime.Parse(Console.ReadLine());
+                battle.Name = "Battle of Kyoto";
+                battle.Description = "A huge battle with around 40.000 warriors. The city of Kyoto was under siege on all sides.";
+                battle.IsBrutal = true;
+                battle.StartDate = new DateTime (12/12/2012);
+                battle.EndDate = new DateTime(12/29/2012);
                
-                int orderNum = 1;
-                bool EventLogging = false;
 
-                Console.WriteLine("Are there any events to report? Respond with Y/N:");
-                if (Console.ReadLine() == "Y")
-                { EventLogging = true; }
+                List<Samurai> Samurais = new();
 
-                BattleEvent bEvents = new();
-                List<BattleEvent> BattleEvents = new();
-                while (EventLogging == true)
-                {
-                    bEvents.Order = orderNum;
-                    Console.WriteLine("Please tell the events in chronological order.\n Give a summary of the event:");
-                    bEvents.Summary = Console.ReadLine();
+                Samurai samurai = new();
+                samurai.Name = "Hikomato Tatashaki";
+                samurai.Hairstyle = Hairstyle.Chonmage;
+                Samurais.Add(samurai);
 
-                    Console.WriteLine("Please provide a description of the event:");
-                    bEvents.Description = Console.ReadLine();
+                Samurai samurai2 = new();
+                samurai2.Name = "Yokohami Sukkodo";
+                samurai2.Hairstyle = Hairstyle.Oicho;
+                Samurais.Add(samurai2);
 
-                    BattleEvents.Add(bEvents);
-                    orderNum++;
 
-                    Console.WriteLine("Are there any more events to report? Respond with Y/N");
+                List<BattleEvent> battleLog = new();
 
-                    if (Console.ReadLine() == "N") { EventLogging = false; }
-                }
+                BattleEvent bEvent = new();
+                bEvent.Order = 1;
+                bEvent.Summary = "Fight lasted 17 days. 1023 registered casualties. Victorious in the end.";
+                bEvent.Description = "Lorem ipsum color sit amet. Latin filler text. Basically, we won. We killed the demons(?) and enemies. All hail the samurais.";
+                battleLog.Add(bEvent);
+                BattleLog BattleLog = new(bEvent.Order, bEvent.Summary, bEvent.Description);
+                battle.BattleLog = BattleLog;
 
-                
+                battle.SamuraiBattle = (ICollection<SamuraiBattle>?)Samurais;
+                battle.SamuraiBattle = (ICollection<SamuraiBattle>?)battle;
+                //battle.BattleLog = (BattleLog?)(ICollection<BattleEvent>?)bEvent;
+                #region
+                //Console.WriteLine("What is the name of the battle? Please type in the name and press [ENTER]:");
+                //    battle.Name = Console.ReadLine();
 
-                
+                //Console.WriteLine("Please provide a brief description of the battle:");
+                //    battle.Description = Console.ReadLine();
+
+                //Console.WriteLine("Was the battle brutal? Respond with Y/N:");
+                //if (Console.ReadLine() == "Y")
+                //{
+                //    battle.IsBrutal = true;
+                //}
+                //else if (Console.ReadLine() == "N")
+                //{
+                //    battle.IsBrutal = false;
+                //}
+
+                //Console.WriteLine("What is the startdate of the battle? Format: MM/DD/YYYY");
+                //battle.StartDate = DateTime.Parse(Console.ReadLine());
+
+                //Console.WriteLine("What is the enddate of the battle? Format: MM/DD/YYYY");
+                //battle.EndDate = DateTime.Parse(Console.ReadLine());
+
+                //int orderNum = 1;
+                //bool EventLogging = false;
+
+                //Console.WriteLine("Are there any events to report? Respond with Y/N:");
+                //if (Console.ReadLine() == "Y")
+                //{ EventLogging = true; }
+
+                //while (EventLogging == true)
+                //{
+                //    BattleEvent bEvent = new();
+                //    bEvent.Order = orderNum;
+                //    Console.WriteLine("Please tell the events in chronological order.\n Give a summary of the event:");
+                //    bEvent.Summary = Console.ReadLine();
+
+                //    Console.WriteLine("Please provide a description of the event:");
+                //    bEvent.Description = Console.ReadLine();
+
+                //    BattleEvents.Add(bEvent);
+                //    orderNum++;
+
+                //    Console.WriteLine("Are there any more events to report? Respond with Y/N");
+
+                //    if (Console.ReadLine() == "N") { EventLogging = false; }
+                //}
+                #endregion
+
+
+                Battle theBattle = new(battle.Name, battle.Description, battle.IsBrutal, battle.StartDate, battle.EndDate, battle.SamuraiBattle, battle.BattleLog);
+
+                //Battles.Add(theBattle);
+
+                using SamuraiDbContext db = new();
+                db.Add(theBattle);
+                db.SaveChanges();
             }
         }
 

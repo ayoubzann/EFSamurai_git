@@ -14,5 +14,19 @@ namespace EFSamurai.Domain
         public int SamuraiId { get; set; } // Fremmednøkkel fra Samurai
         public Samurai samurai { get; set; } = null!; // Instansierer Samurai for å ha fremmednøkkel
         public QuoteStyle? QuoteStyle { get; set; }
+
+        public Quote(int id, string? text, Samurai Samurai, QuoteStyle quoteStyle)
+        {
+            Id = id;
+            Text = text;
+            SamuraiId = samuraiId;
+            samurai = Samurai;
+            QuoteStyle = quoteStyle;
+        }
+
+        public Quote()
+        {
+
+        }
     }
 }

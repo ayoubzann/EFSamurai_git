@@ -11,8 +11,18 @@ namespace EFSamurai.Domain
     {
         public int Id { get; set; }
         public int SamuraiId { get; set; } // Fremmednøkkel fra Samurai
-        public Samurai samurai { get; set; } = null!; // Instansierer Samurai for å ha fremmednøkkel
+        public Samurai Samurai { get; set; } = null!; // Instansierer Samurai for å ha fremmednøkkel
         public string Realname { get; set; } = "";
 
+        public SecretIdentity()
+        {
+
+        }
+
+        public SecretIdentity(Samurai samurai, string realname)
+        {
+            Samurai = samurai;
+            Realname = realname;
+        }
     }
 }
