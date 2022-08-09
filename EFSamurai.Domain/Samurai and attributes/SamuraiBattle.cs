@@ -16,20 +16,25 @@ veien – altså i Samurai og Battle klassene.
 SamuraiDbContext klassen. Se bakerst i dagens forelesningsslides på Canvas. Klarer vi 
 å gjøre tilsvarende eksempelet, men for SamuraiBattle? 
      */
-    public class SamuraiBattle
-    {
-        public int SamuraiId { get; set; }
-        public Samurai Samurai { get; set; }
-        
-        public int BattleId { get; set; }
-        public Battle Battle { get; set; }
-
-
-        public SamuraiBattle(Samurai samurai, Battle battle)
+  
+        public class SamuraiBattle
         {
-            Samurai = samurai;
-            Battle = battle;
-        }
+            public int Id { get; set; }
+            public int SamuraiId { get; set; }
+            public Samurai? Samurai { get; set; }
 
-    }
+
+
+            public int BattleId { get; set; }
+            public Battle? Battle { get; set; }
+
+
+
+            protected static void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                // Combined PK
+                modelBuilder.Entity<SamuraiBattle>().HasKey(sb => new { sb.SamuraiId, sb.BattleId });
+            }
+        }
 }
+

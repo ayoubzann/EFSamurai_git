@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFSamurai.Data.Migrations
 {
     [DbContext(typeof(SamuraiDbContext))]
-    [Migration("20220808121940_ConsoleAppAsStartup")]
-    partial class ConsoleAppAsStartup
+    [Migration("20220809123908_recreateTables")]
+    partial class recreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,7 +51,7 @@ namespace EFSamurai.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Battle");
+                    b.ToTable("Battles");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.BattleEvent", b =>
@@ -152,15 +152,23 @@ namespace EFSamurai.Data.Migrations
 
             modelBuilder.Entity("EFSamurai.Domain.SamuraiBattle", b =>
                 {
-                    b.Property<int>("SamuraiId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("BattleId")
                         .HasColumnType("int");
 
-                    b.HasKey("SamuraiId", "BattleId");
+                    b.Property<int>("SamuraiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("BattleId");
+
+                    b.HasIndex("SamuraiId");
 
                     b.ToTable("SamuraiBattles");
                 });
@@ -212,7 +220,7 @@ namespace EFSamurai.Data.Migrations
             modelBuilder.Entity("EFSamurai.Domain.Quote", b =>
                 {
                     b.HasOne("EFSamurai.Domain.Samurai", "samurai")
-                        .WithMany()
+                        .WithMany("Quote")
                         .HasForeignKey("SamuraiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -222,32 +230,32 @@ namespace EFSamurai.Data.Migrations
 
             modelBuilder.Entity("EFSamurai.Domain.SamuraiBattle", b =>
                 {
-                    b.HasOne("EFSamurai.Domain.Battle", "battle")
+                    b.HasOne("EFSamurai.Domain.Battle", "Battle")
                         .WithMany("SamuraiBattle")
                         .HasForeignKey("BattleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFSamurai.Domain.Samurai", "samurai")
+                    b.HasOne("EFSamurai.Domain.Samurai", "Samurai")
                         .WithMany("SamuraiBattle")
                         .HasForeignKey("SamuraiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("battle");
+                    b.Navigation("Battle");
 
-                    b.Navigation("samurai");
+                    b.Navigation("Samurai");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.SecretIdentity", b =>
                 {
-                    b.HasOne("EFSamurai.Domain.Samurai", "samurai")
+                    b.HasOne("EFSamurai.Domain.Samurai", "Samurai")
                         .WithMany()
                         .HasForeignKey("SamuraiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("samurai");
+                    b.Navigation("Samurai");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.Battle", b =>
@@ -265,6 +273,8 @@ namespace EFSamurai.Data.Migrations
 
             modelBuilder.Entity("EFSamurai.Domain.Samurai", b =>
                 {
+                    b.Navigation("Quote");
+
                     b.Navigation("SamuraiBattle");
                 });
 #pragma warning restore 612, 618

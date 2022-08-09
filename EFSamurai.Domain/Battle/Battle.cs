@@ -21,34 +21,7 @@ SQL Server), StartDate (DateTime type), EndDate.
         public ICollection<SamuraiBattle>? SamuraiBattle { get; set; }
         public BattleLog BattleLog { get; set; }
 
-        //public Battle(int id, string name, string description, bool isBrutal, DateTime startDate, DateTime endDate, ICollection<SamuraiBattle>? samuraiBattle, BattleLog battleLog)
-        //{
-        //    Id = id;
-        //    Name = name;
-        //    Description = description;
-        //    IsBrutal = isBrutal;
-        //    StartDate = startDate;
-        //    EndDate = endDate;
-        //    SamuraiBattle = samuraiBattle;
-        //    BattleLog = battleLog;
-        //}
-
-        public Battle()
-        {
-
-        }
-
-        public Battle(string name, string description, bool isBrutal, DateTime startDate, DateTime endDate, ICollection<SamuraiBattle>? samuraiBattle, BattleLog battleLog)
-        {
-            Name = name;
-            Description = description;
-            IsBrutal = isBrutal;
-            StartDate = startDate;
-            EndDate = endDate;
-            SamuraiBattle = samuraiBattle;
-            BattleLog = battleLog;
-        }
-    }
+     }
 
 
 }

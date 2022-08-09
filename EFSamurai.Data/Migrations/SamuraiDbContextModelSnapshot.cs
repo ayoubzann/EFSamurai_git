@@ -49,7 +49,7 @@ namespace EFSamurai.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Battle");
+                    b.ToTable("Battles");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.BattleEvent", b =>
@@ -150,15 +150,23 @@ namespace EFSamurai.Data.Migrations
 
             modelBuilder.Entity("EFSamurai.Domain.SamuraiBattle", b =>
                 {
-                    b.Property<int>("SamuraiId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("BattleId")
                         .HasColumnType("int");
 
-                    b.HasKey("SamuraiId", "BattleId");
+                    b.Property<int>("SamuraiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("BattleId");
+
+                    b.HasIndex("SamuraiId");
 
                     b.ToTable("SamuraiBattles");
                 });
@@ -220,32 +228,32 @@ namespace EFSamurai.Data.Migrations
 
             modelBuilder.Entity("EFSamurai.Domain.SamuraiBattle", b =>
                 {
-                    b.HasOne("EFSamurai.Domain.Battle", "battle")
+                    b.HasOne("EFSamurai.Domain.Battle", "Battle")
                         .WithMany("SamuraiBattle")
                         .HasForeignKey("BattleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFSamurai.Domain.Samurai", "samurai")
+                    b.HasOne("EFSamurai.Domain.Samurai", "Samurai")
                         .WithMany("SamuraiBattle")
                         .HasForeignKey("SamuraiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("battle");
+                    b.Navigation("Battle");
 
-                    b.Navigation("samurai");
+                    b.Navigation("Samurai");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.SecretIdentity", b =>
                 {
-                    b.HasOne("EFSamurai.Domain.Samurai", "samurai")
+                    b.HasOne("EFSamurai.Domain.Samurai", "Samurai")
                         .WithMany()
                         .HasForeignKey("SamuraiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("samurai");
+                    b.Navigation("Samurai");
                 });
 
             modelBuilder.Entity("EFSamurai.Domain.Battle", b =>

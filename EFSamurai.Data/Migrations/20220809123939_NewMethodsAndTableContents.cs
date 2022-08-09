@@ -4,7 +4,7 @@
 
 namespace EFSamurai.Data.Migrations
 {
-    public partial class ConsoleAppAsStartup : Migration
+    public partial class NewMethodsAndTableContents : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

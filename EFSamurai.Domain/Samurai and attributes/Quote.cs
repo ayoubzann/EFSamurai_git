@@ -19,7 +19,6 @@ namespace EFSamurai.Domain
         {
             Id = id;
             Text = text;
-            SamuraiId = samuraiId;
             samurai = Samurai;
             QuoteStyle = quoteStyle;
         }

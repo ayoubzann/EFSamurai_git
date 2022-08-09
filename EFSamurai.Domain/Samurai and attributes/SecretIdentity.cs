@@ -10,10 +10,10 @@ namespace EFSamurai.Domain
     public class SecretIdentity
     {
         public int Id { get; set; }
+        public string Realname { get; set; } = "";
         public int SamuraiId { get; set; } // Fremmednøkkel fra Samurai
         public Samurai Samurai { get; set; } = null!; // Instansierer Samurai for å ha fremmednøkkel
-        public string Realname { get; set; } = "";
-
+      
         public SecretIdentity()
         {
 
