@@ -77,6 +77,11 @@ namespace SamuraiApp
 
         public static void ListAllSamuraiNames()
         {
+            using SamuraiDbContext db = new();
+
+
+            List<string> samuraiNames = db.Samurais.Select(s => s.Name).ToList();
+
         }
 
         static void Main(string[] args)

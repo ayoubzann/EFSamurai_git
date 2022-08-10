@@ -159,6 +159,10 @@ namespace EFSamurai.Data.Migrations
                     b.Property<int>("BattleId")
                         .HasColumnType("int");
 
+                    b.Property<string>("MyTestColumn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SamuraiId")
                         .HasColumnType("int");
 

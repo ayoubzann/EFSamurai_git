@@ -27,21 +27,10 @@ skal lages en BattleLog property i Battle klassen.
         public string Name { get; set; }
 
         public int BattleId { get; set; }
-        public Battle? Battle { get; set; } //Navigation properies
+        public Battle? Battle { get; set; } //Navigation properties
 
         public ICollection<BattleEvent>? BattleEvents { get; set; } = new List<BattleEvent>();
 
-
-        //public BattleLog()
-        //{
-
-        //}
-        //public BattleLog(int id, string name, int battleId, Battle battle, ICollection<BattleEvent>? battleEvents)
-        //{
-        //    Name = name;
-        //    BattleId = battleId;
-        //    Battle = battle;
-        //    BattleEvents = battleEvents;
-        //}
+        
     }
 }
